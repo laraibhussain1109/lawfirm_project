@@ -1,0 +1,29 @@
+{% extends "lawfirm/base.html" %}
+{% block content %}
+<h2>{{ query.title }}</h2>
+<p>{{ query.description }}</p>
+<p>Status: {{ query.get_status_display }}</p>
+<p>Created on: {{ query.created_at }}</p>
+
+<h3>Documents</h3>
+<ul>
+    {% for document in query.documents.all %}
+    <li><a href="{{ document.file.url }}">{{ document.title }}</a> (Uploaded: {{ document.uploaded_at }})</li>
+    {% empty %}
+    <li>No documents uploaded.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'upload_document' query.id %}">Upload Document</a>
+
+<h3>Invoices</h3>
+<ul>
+    {% for invoice in query.invoices.all %}
+    <li>{{ invoice.invoice_number }} - Amount: ${{ invoice.amount }} (Uploaded: {{ invoice.created_at }})
+        {% if invoice.invoice_file %} - <a href="{{ invoice.invoice_file.url }}">View Invoice</a>{% endif %}
+    </li>
+    {% empty %}
+    <li>No invoices uploaded.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'upload_invoice' query.id %}">Upload Invoice</a>
+{% endblock %}

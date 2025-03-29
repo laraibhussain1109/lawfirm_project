@@ -1,0 +1,13 @@
+{% extends "lawfirm/base.html" %}
+{% block content %}
+<h2>Queries</h2>
+<ul>
+    {% for query in queries %}
+    <li>
+        <a href="{% url 'query_detail' query.id %}">{{ query.title }}</a> - Status: {{ query.get_status_display }}
+    </li>
+    {% empty %}
+    <li>No queries available.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
